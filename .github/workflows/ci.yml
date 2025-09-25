@@ -1,44 +1,29 @@
-# Nama workflow yang akan tampil di tab "Actions" di GitHub
+# .github/workflows/ci.yml
+
 name: Astro CI
 
-# Pemicu (trigger) kapan workflow ini akan berjalan
 on:
-  pull_request: # Berjalan saat ada pull request baru atau update
+  pull_request:
     branches: ["main"]
-  push: # Berjalan saat ada push ke branch main
+  push:
     branches: ["main"]
 
-# Daftar pekerjaan (jobs) yang akan dieksekusi
 jobs:
   build:
-    # Nama job, bisa apa saja
     name: Build & Test
-    # Sistem operasi yang digunakan untuk menjalankan job
     runs-on: ubuntu-latest
-
-    # Langkah-langkah (steps) yang akan dijalankan secara berurutan
     steps:
-      # 1. Checkout kode dari repository
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js (sesuaikan versi jika perlu)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # Ganti dengan versi Node.js yang Anda gunakan
-          cache: "npm" # Menggunakan cache untuk instalasi dependensi yang lebih cepat
+          node-version: "20"
+          cache: "npm"
 
-      # 3. Install dependencies
       - name: Install Dependencies
         run: npm install
 
-      # 4. Jalankan Linter dan Formatter (opsional, tapi sangat direkomendasikan)
-      # Ganti "lint" dengan script yang Anda punya di package.json
-      - name: Run Linter & Formatter Check
-        run: npm run lint
-
-      # 5. Build proyek Astro
-      # Ganti "build" dengan script build Anda di package.json
       - name: Build Project
         run: npm run build
